@@ -15,6 +15,9 @@ internal sealed class SortAppOptions
     [Required]
     public required string TempDirOutputPath { get; init; }
 
+    [Range(1, int.MaxValue)]
+    public int OutputFileBufferSize { get; init; }
+
     [Required]
     public required string OutputFilePath { get; init; }
 }

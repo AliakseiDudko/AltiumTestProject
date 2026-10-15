@@ -54,10 +54,64 @@ internal static class Program
         return inputFilePath;
     }
 
-        if (string.IsNullOrWhiteSpace(dataFilePath))
+    private static void SortFile(string filePath, SortAppOptions options)
+    {
+        DivideIntoFiles(filePath, options);
+    }
+
+    private static void DivideIntoFiles(string filePath, SortAppOptions options)
+    {
+        var currentLines = new List<Line>(options.ChunkListCapacity);
+        var currentFileIndex = 0;
+        long currentFileSize = 0;
+        long maxChunkChars = options.ChunkSizeMb * 1024 * 1024;
+
+        using var reader = new StreamReader(filePath);
+        while (true)
         {
-            throw new InvalidOperationException("File path not specified.");   
-            Directory.Delete(tempDirFullPath, true);
+            var line = reader.ReadLine();
+            if (line == null)
+            {
+                SortAndWriteChunkFile(currentLines, currentFileIndex, options);
+
+                break;
+            }
+
+            var newLine = ParseLine(line);
+            currentLines.Add(newLine);
+            currentFileSize += line.Length + 1;
+
+            if (currentFileSize >= maxChunkChars)
+            {
+                SortAndWriteChunkFile(currentLines, currentFileIndex++, options);
+                currentLines.Clear();
+                currentFileSize = 0;
+            }
+        }
+    }
+
+    private static Line ParseLine(string line)
+    {
+        var dotSeparatorIndex = line.IndexOf(". ", StringComparison.Ordinal);
+        var number = long.Parse(line.AsSpan(0, dotSeparatorIndex), NumberStyles.None, CultureInfo.InvariantCulture);
+        var text = line[(dotSeparatorIndex + 2)..];
+
+        return new Line(number, text);
+    }
+
+    private static void SortAndWriteChunkFile(List<Line> lines, int fileIndex, SortAppOptions options)
+    {
+        lines.Sort(LineComparer.Instance);
+
+        var filePath = Path.Combine(options.TempDirOutputPath, $"chuck-{fileIndex:D5}.txt");
+        using var stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
+        using var writer = new StreamWriter(stream, new UTF8Encoding(false), options.OutputFileBufferSize);
+
+        foreach (var line in lines)
+        {
+            LineWriter.Write(writer, line);
+        }
+    }
 
     private static void CreateTempDirectory(string tempDirOutputPath)
     {
