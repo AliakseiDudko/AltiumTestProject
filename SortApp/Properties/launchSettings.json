@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "Sort100MB": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines100MB.txt"
+    },
+    "Sort1GB": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines1GB.txt"
+    },
+    "Sort10GB": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines10GB.txt"
+    },
+    "Sort100GB": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines100GB.txt"
+    }
+  }
+}
