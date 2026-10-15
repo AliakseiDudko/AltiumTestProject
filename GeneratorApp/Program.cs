@@ -8,18 +8,27 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        var fileSize = ReadFileSize(args);
-        Console.WriteLine($"FileSize: {fileSize} bytes.");
+        try
+        {
+            var fileSize = ReadFileSize(args);
+            Console.WriteLine($"FileSize: {fileSize} bytes.");
 
-        var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
+            var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
 
-        var seedPhrases = LoadSeedPhrases(options);
-        Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
+            var seedPhrases = LoadSeedPhrases(options);
+            Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
 
-        var writtenCharacters = WriteFile(fileSize, seedPhrases, options);
-        Console.WriteLine($"{writtenCharacters} characters were written to {options.OutputFilePath}.");
+            var writtenCharacters = WriteFile(fileSize, seedPhrases, options);
+            Console.WriteLine($"{writtenCharacters} characters were written to {options.OutputFilePath}.");
 
-        return 0;
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            return 1;
+        }
     }
 
     private static long ReadFileSize(string[] args)
