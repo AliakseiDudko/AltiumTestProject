@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Generator1MB": {
+      "commandName": "Project",
+      "commandLineArgs": "1MB"
+    },
+    "GeneratorAskSize": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

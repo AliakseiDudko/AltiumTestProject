@@ -4,6 +4,38 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        var fileSize = GetFileSize(args);
+
+        Console.WriteLine($"FileSize: {fileSize} bytes.");
+
         return 0;
+    }
+
+    private static long GetFileSize(string[] args)
+    {
+        if (args.Length > 0)
+        {
+            if (FileSizeParser.TryParseFileSize(args[0], out var fileSize))
+            {
+                return fileSize;
+            }
+
+            Console.WriteLine($"Invalid file size: {args[0]}.");
+        }
+
+        while (true)
+        {
+            Console.Write("Enter file size (100, 100KB, 100MB, 100GB): ");
+            var input = Console.ReadLine();
+            if (string.IsNullOrEmpty(input))
+            {
+                continue;
+            }
+
+            if (FileSizeParser.TryParseFileSize(input, out var fileSize))
+            {
+                return fileSize;
+            }
+        }
     }
 }
