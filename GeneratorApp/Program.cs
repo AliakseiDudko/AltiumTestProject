@@ -13,8 +13,7 @@ internal static class Program
 
         var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
 
-        var seedPhraseFilePath = Path.Combine(AppContext.BaseDirectory, options.SeedPhraseFilePath);
-        var seedPhrases = File.ReadAllLines(seedPhraseFilePath);
+        var seedPhrases = LoadSeedPhrases(options);
         Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
 
         var writtenCharacters = WriteFile(fileSize, seedPhrases, options);
@@ -49,6 +48,21 @@ internal static class Program
                 return fileSize;
             }
         }
+    }
+
+    private static string[] LoadSeedPhrases(GeneratorAppOptions options)
+    {
+        var seedPhraseFilePath = Path.Combine(AppContext.BaseDirectory, options.SeedPhraseFilePath);
+        var seedPhrases = File
+            .ReadAllLines(seedPhraseFilePath)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToArray();
+        if (seedPhrases.Length == 0)
+        {
+            throw new InvalidOperationException("No seed phrases were provided.");
+        }
+
+        return seedPhrases;
     }
 
     private static long WriteFile(long fileSize, string[] seedPhrases, GeneratorAppOptions options)
