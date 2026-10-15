@@ -1,6 +1,6 @@
-namespace Altium.Dudko.Core;
+namespace Altium.Dudko.SortApp;
 
-public sealed class LineComparer : IComparer<Line>
+internal sealed class LineComparer : IComparer<Line>
 {
     public int Compare(Line x, Line y)
     {
