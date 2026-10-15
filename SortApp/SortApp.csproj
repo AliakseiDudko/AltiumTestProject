@@ -9,4 +9,12 @@
         <RootNamespace>Altium.Dudko.SortApp</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Core\Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
 </Project>

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Altium.Dudko.GeneratorApp;
 
-public sealed class GeneratorAppOptions
+internal sealed class GeneratorAppOptions
 {
     public const string SectionName = "GeneratorApp";
 

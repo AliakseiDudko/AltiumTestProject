@@ -1,4 +1,6 @@
-﻿namespace Altium.Dudko.SortApp;
+﻿using Altium.Dudko.Core;
+
+namespace Altium.Dudko.SortApp;
 
 internal static class Program
 {
@@ -7,6 +9,8 @@ internal static class Program
         try
         {
             var filePath = GetFilePath(args);
+            
+            var options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
 
             return 0;
         }
