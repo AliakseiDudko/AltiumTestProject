@@ -1,19 +1,25 @@
-﻿namespace Altium.Dudko.GeneratorApp;
+﻿using Altium.Dudko.Core;
+
+namespace Altium.Dudko.GeneratorApp;
 
 internal static class Program
 {
     private static int Main(string[] args)
     {
-        var fileSize = GetFileSize(args);
+        var fileSize = ReadFileSize(args);
         Console.WriteLine($"FileSize: {fileSize} bytes.");
 
         var seedPhrases = File.ReadAllLines("./Resources/SeedPhrases.txt");
         Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases.");
+        var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
+
+        var seedPhrases = File.ReadAllLines(options.SeedPhraseFilePath);
+        Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
 
         return 0;
     }
 
-    private static long GetFileSize(string[] args)
+    private static long ReadFileSize(string[] args)
     {
         if (args.Length > 0)
         {
