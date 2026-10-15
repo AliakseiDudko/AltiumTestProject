@@ -6,6 +6,8 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        SortAppOptions options = null;
+
         try
         {
             var filePath = GetFilePath(args);
@@ -20,12 +22,22 @@ internal static class Program
 
             return 1;
         }
+        finally
+        {
+            if (options != null)
+            {
+                ClearTempDirectory(options.TempDirOutputPath);
+            }
+        }
     }
 
     private static string GetFilePath(string[] args)
+    private static void ClearTempDirectory(string tempDirOutputPath)
     {
         string dataFilePath = null;
         if (args.Length > 0)
+        var tempDirFullPath = Path.Combine(AppContext.BaseDirectory, tempDirOutputPath);
+        if (Directory.Exists(tempDirFullPath))
         {
             dataFilePath = Path.Combine(AppContext.BaseDirectory, args[0]);
         }
@@ -33,6 +45,7 @@ internal static class Program
         if (string.IsNullOrWhiteSpace(dataFilePath))
         {
             throw new InvalidOperationException("File path not specified.");   
+            Directory.Delete(tempDirFullPath, true);
         }
 
         if (!File.Exists(dataFilePath))
