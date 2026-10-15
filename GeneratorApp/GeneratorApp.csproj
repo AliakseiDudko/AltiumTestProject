@@ -9,4 +9,8 @@
         <AssemblyName>Altium.Dudko.GeneratorApp</AssemblyName>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Update="Resources\SeedPhrases.txt" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>

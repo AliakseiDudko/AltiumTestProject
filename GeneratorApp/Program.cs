@@ -5,8 +5,10 @@ internal static class Program
     private static int Main(string[] args)
     {
         var fileSize = GetFileSize(args);
-
         Console.WriteLine($"FileSize: {fileSize} bytes.");
+
+        var seedPhrases = File.ReadAllLines("./Resources/SeedPhrases.txt");
+        Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases.");
 
         return 0;
     }

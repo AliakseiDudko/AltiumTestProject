@@ -1,0 +1,372 @@
+Apple
+Apple is red
+Apple is the best
+Apple is very sweet
+Apple is sour today
+Apple is my favorite fruit
+I like apples
+I do not like apples
+The apple is sweet
+Apples are good for you
+Apples and bananas
+My mother buys apples
+We eat apples every day
+This apple is not sour
+Something something apple
+Banana
+Banana is yellow
+Banana is the best
+Banana is very sour
+Banana is small today
+Banana is my favorite fruit
+I like bananas
+I do not like bananas
+The banana is sour
+Bananas are good for you
+Bananas and cherries
+My mother buys bananas
+We eat bananas every day
+This banana is not small
+Something something banana
+Cherry
+Cherry is red
+Cherry is the best
+Cherry is very fresh
+Cherry is juicy today
+Cherry is my favorite fruit
+I like cherries
+I do not like cherries
+The cherry is fresh
+Cherries are good for you
+Cherries and oranges
+My mother buys cherries
+We eat cherries every day
+This cherry is not juicy
+Something something cherry
+Orange
+Orange is orange
+Orange is the best
+Orange is very big
+Orange is sweet today
+Orange is my favorite fruit
+I like oranges
+I do not like oranges
+The orange is big
+Oranges are good for you
+Oranges and lemons
+My mother buys oranges
+We eat oranges every day
+This orange is not sweet
+Something something orange
+Lemon
+Lemon is yellow
+Lemon is the best
+Lemon is very small
+Lemon is big today
+Lemon is my favorite fruit
+I like lemons
+I do not like lemons
+The lemon is small
+Lemons are good for you
+Lemons and limes
+My mother buys lemons
+We eat lemons every day
+This lemon is not big
+Something something lemon
+Lime
+Lime is green
+Lime is the best
+Lime is very cheap
+Lime is tasty today
+Lime is my favorite fruit
+I like limes
+I do not like limes
+The lime is cheap
+Limes are good for you
+Limes and pears
+My mother buys limes
+We eat limes every day
+This lime is not tasty
+Something something lime
+Pear
+Pear is green
+Pear is the best
+Pear is very tasty
+Pear is good today
+Pear is my favorite fruit
+I like pears
+I do not like pears
+The pear is tasty
+Pears are good for you
+Pears and peaches
+My mother buys pears
+We eat pears every day
+This pear is not good
+Something something pear
+Peach
+Peach is pink
+Peach is the best
+Peach is very juicy
+Peach is fresh today
+Peach is my favorite fruit
+I like peaches
+I do not like peaches
+The peach is juicy
+Peaches are good for you
+Peaches and plums
+My mother buys peaches
+We eat peaches every day
+This peach is not fresh
+Something something peach
+Plum
+Plum is purple
+Plum is the best
+Plum is very soft
+Plum is cheap today
+Plum is my favorite fruit
+I like plums
+I do not like plums
+The plum is soft
+Plums are good for you
+Plums and grapes
+My mother buys plums
+We eat plums every day
+This plum is not cheap
+Something something plum
+Grape
+Grape is green
+Grape is the best
+Grape is very good
+Grape is soft today
+Grape is my favorite fruit
+I like grapes
+I do not like grapes
+The grape is good
+Grapes are good for you
+Grapes and mangoes
+My mother buys grapes
+We eat grapes every day
+This grape is not soft
+Something something grape
+Mango
+Mango is yellow
+Mango is the best
+Mango is very sweet
+Mango is sour today
+Mango is my favorite fruit
+I like mangoes
+I do not like mangoes
+The mango is sweet
+Mangoes are good for you
+Mangoes and kiwis
+My mother buys mangoes
+We eat mangoes every day
+This mango is not sour
+Something something mango
+Kiwi
+Kiwi is green
+Kiwi is the best
+Kiwi is very sour
+Kiwi is small today
+Kiwi is my favorite fruit
+I like kiwis
+I do not like kiwis
+The kiwi is sour
+Kiwis are good for you
+Kiwis and melons
+My mother buys kiwis
+We eat kiwis every day
+This kiwi is not small
+Something something kiwi
+Melon
+Melon is yellow
+Melon is the best
+Melon is very fresh
+Melon is juicy today
+Melon is my favorite fruit
+I like melons
+I do not like melons
+The melon is fresh
+Melons are good for you
+Melons and watermelons
+My mother buys melons
+We eat melons every day
+This melon is not juicy
+Something something melon
+Watermelon
+Watermelon is green
+Watermelon is the best
+Watermelon is very big
+Watermelon is sweet today
+Watermelon is my favorite fruit
+I like watermelons
+I do not like watermelons
+The watermelon is big
+Watermelons are good for you
+Watermelons and strawberries
+My mother buys watermelons
+We eat watermelons every day
+This watermelon is not sweet
+Something something watermelon
+Strawberry
+Strawberry is red
+Strawberry is the best
+Strawberry is very small
+Strawberry is big today
+Strawberry is my favorite fruit
+I like strawberries
+I do not like strawberries
+The strawberry is small
+Strawberries are good for you
+Strawberries and blueberries
+My mother buys strawberries
+We eat strawberries every day
+This strawberry is not big
+Something something strawberry
+Blueberry
+Blueberry is blue
+Blueberry is the best
+Blueberry is very cheap
+Blueberry is tasty today
+Blueberry is my favorite fruit
+I like blueberries
+I do not like blueberries
+The blueberry is cheap
+Blueberries are good for you
+Blueberries and raspberries
+My mother buys blueberries
+We eat blueberries every day
+This blueberry is not tasty
+Something something blueberry
+Raspberry
+Raspberry is red
+Raspberry is the best
+Raspberry is very tasty
+Raspberry is good today
+Raspberry is my favorite fruit
+I like raspberries
+I do not like raspberries
+The raspberry is tasty
+Raspberries are good for you
+Raspberries and pineapples
+My mother buys raspberries
+We eat raspberries every day
+This raspberry is not good
+Something something raspberry
+Pineapple
+Pineapple is yellow
+Pineapple is the best
+Pineapple is very juicy
+Pineapple is fresh today
+Pineapple is my favorite fruit
+I like pineapples
+I do not like pineapples
+The pineapple is juicy
+Pineapples are good for you
+Pineapples and coconuts
+My mother buys pineapples
+We eat pineapples every day
+This pineapple is not fresh
+Something something pineapple
+Coconut
+Coconut is brown
+Coconut is the best
+Coconut is very soft
+Coconut is cheap today
+Coconut is my favorite fruit
+I like coconuts
+I do not like coconuts
+The coconut is soft
+Coconuts are good for you
+Coconuts and apricots
+My mother buys coconuts
+We eat coconuts every day
+This coconut is not cheap
+Something something coconut
+Apricot
+Apricot is orange
+Apricot is the best
+Apricot is very good
+Apricot is soft today
+Apricot is my favorite fruit
+I like apricots
+I do not like apricots
+The apricot is good
+Apricots are good for you
+Apricots and figs
+My mother buys apricots
+We eat apricots every day
+This apricot is not soft
+Something something apricot
+Fig
+Fig is purple
+Fig is the best
+Fig is very sweet
+Fig is sour today
+Fig is my favorite fruit
+I like figs
+I do not like figs
+The fig is sweet
+Figs are good for you
+Figs and papayas
+My mother buys figs
+We eat figs every day
+This fig is not sour
+Something something fig
+Papaya
+Papaya is orange
+Papaya is the best
+Papaya is very sour
+Papaya is small today
+Papaya is my favorite fruit
+I like papayas
+I do not like papayas
+The papaya is sour
+Papayas are good for you
+Papayas and avocados
+My mother buys papayas
+We eat papayas every day
+This papaya is not small
+Something something papaya
+Avocado
+Avocado is green
+Avocado is the best
+Avocado is very fresh
+Avocado is juicy today
+Avocado is my favorite fruit
+I like avocados
+I do not like avocados
+The avocado is fresh
+Avocados are good for you
+Avocados and pomegranates
+My mother buys avocados
+We eat avocados every day
+This avocado is not juicy
+Something something avocado
+Pomegranate
+Pomegranate is red
+Pomegranate is the best
+Pomegranate is very big
+Pomegranate is sweet today
+Pomegranate is my favorite fruit
+I like pomegranates
+I do not like pomegranates
+The pomegranate is big
+Pomegranates are good for you
+Pomegranates and apples
+My mother buys pomegranates
+We eat pomegranates every day
+This pomegranate is not sweet
+Something something pomegranate
+apple
+APPLE
+apple is red
+Apple Is Red
+banana is yellow
+BANANA IS YELLOW
+cherry is the best
+Cherry Is The Best
+i like apples
+I LIKE APPLES
+Something something something
+something something something
