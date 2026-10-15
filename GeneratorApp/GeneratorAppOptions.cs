@@ -10,14 +10,14 @@ public sealed class GeneratorAppOptions
     public int MaxNumber { get; init; }
 
     [Required]
-    public string SeedPhraseFilePath { get; init; }
+    public required string SeedPhraseFilePath { get; init; }
 
     [Range(0, 100)]
     public int DuplicateRate { get; init; }
 
-    [Range(0, int.MaxValue)]
+    [Range(1, int.MaxValue)]
     public int OutputFileBufferSize { get; init; }
 
     [Required]
-    public string OutputFilePath { get; init; }
+    public required string OutputFilePath { get; init; }
 }

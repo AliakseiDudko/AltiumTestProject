@@ -25,7 +25,7 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.Error.WriteLine(ex.Message);
 
             return 1;
         }
@@ -80,7 +80,7 @@ internal static class Program
         using var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
         using var writer = new StreamWriter(stream, new UTF8Encoding(false), options.OutputFileBufferSize);
 
-        var random = new Random(Environment.TickCount);
+        var random = new Random();
         var phrase = seedPhrases[random.Next(seedPhrases.Length)];
 
         long writtenCharacters = 0;
