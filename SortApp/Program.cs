@@ -1,4 +1,6 @@
-﻿using Altium.Dudko.Core;
+﻿using System.Globalization;
+using System.Text;
+using Altium.Dudko.Core;
 
 namespace Altium.Dudko.SortApp;
 
@@ -10,9 +12,13 @@ internal static class Program
 
         try
         {
-            var filePath = GetFilePath(args);
-            
-            var options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
+            options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
+
+            CreateTempDirectory(options.TempDirOutputPath);
+            Console.WriteLine($"Temp directory {options.TempDirOutputPath} created.");
+
+            var filePath = GetInputFilePath(args);
+            SortFile(filePath, options);
 
             return 0;
         }
@@ -27,32 +33,49 @@ internal static class Program
             if (options != null)
             {
                 ClearTempDirectory(options.TempDirOutputPath);
+                Console.WriteLine($"Temp directory {options.TempDirOutputPath} cleared.");
             }
         }
     }
 
-    private static string GetFilePath(string[] args)
-    private static void ClearTempDirectory(string tempDirOutputPath)
+    private static string GetInputFilePath(string[] args)
     {
-        string dataFilePath = null;
-        if (args.Length > 0)
-        var tempDirFullPath = Path.Combine(AppContext.BaseDirectory, tempDirOutputPath);
-        if (Directory.Exists(tempDirFullPath))
+        if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]))
         {
-            dataFilePath = Path.Combine(AppContext.BaseDirectory, args[0]);
+            throw new InvalidOperationException("Input file is not specified.");
         }
+
+        var inputFilePath = Path.GetFullPath(args[0]);
+        if (!File.Exists(inputFilePath))
+        {
+            throw new FileNotFoundException($"Input file '{inputFilePath}' not found.", inputFilePath);
+        }
+
+        return inputFilePath;
+    }
 
         if (string.IsNullOrWhiteSpace(dataFilePath))
         {
             throw new InvalidOperationException("File path not specified.");   
             Directory.Delete(tempDirFullPath, true);
+
+    private static void CreateTempDirectory(string tempDirOutputPath)
+    {
+        var fullPath = Path.GetFullPath(tempDirOutputPath);
+        if (Directory.Exists(fullPath))
+        {
+            Directory.Delete(fullPath, recursive: true);
         }
 
-        if (!File.Exists(dataFilePath))
+        Directory.CreateDirectory(fullPath);
+    }
+
+    private static void ClearTempDirectory(string tempDirOutputPath)
+    {
+        var fullPath = Path.GetFullPath(tempDirOutputPath);
+        if (Directory.Exists(fullPath))
         {
-            throw new FileNotFoundException($"File {dataFilePath} not found.");
+            Directory.Delete(fullPath, recursive: true);
         }
-        
-        return dataFilePath;
     }
 }
