@@ -1,4 +1,6 @@
-﻿using Altium.Dudko.Core;
+﻿using System.Globalization;
+using System.Text;
+using Altium.Dudko.Core;
 
 namespace Altium.Dudko.GeneratorApp;
 
@@ -9,12 +11,13 @@ internal static class Program
         var fileSize = ReadFileSize(args);
         Console.WriteLine($"FileSize: {fileSize} bytes.");
 
-        var seedPhrases = File.ReadAllLines("./Resources/SeedPhrases.txt");
-        Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases.");
         var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
 
         var seedPhrases = File.ReadAllLines(options.SeedPhraseFilePath);
         Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
+
+        var writtenCharacters = WriteFile(fileSize, seedPhrases, options);
+        Console.WriteLine($"{writtenCharacters} characters were written to {options.OutputFilePath}.");
 
         return 0;
     }
@@ -45,5 +48,54 @@ internal static class Program
                 return fileSize;
             }
         }
+    }
+
+    private static long WriteFile(long fileSize, string[] seedPhrases, GeneratorAppOptions options)
+    {
+        var fullPath = CreateAndGetFullPath(options);
+        using var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
+        using var writer = new StreamWriter(stream, new UTF8Encoding(false), options.OutputFileBufferSize);
+
+        var random = new Random(Environment.TickCount);
+        var phrase = seedPhrases[random.Next(seedPhrases.Length)];
+
+        long writtenCharacters = 0;
+        while (writtenCharacters <= fileSize)
+        {
+            var number = random.NextInt64(1, options.MaxNumber);
+            writtenCharacters += WriteLine(writer, number, phrase);
+
+            if (random.Next() % 100 > options.DuplicateRate)
+            {
+                phrase = seedPhrases[random.Next(seedPhrases.Length)];
+            }
+        }
+
+        return writtenCharacters;
+    }
+
+    private static string CreateAndGetFullPath(GeneratorAppOptions options)
+    {
+        var fullPath = Path.GetFullPath(options.OutputFilePath);
+        var directory = Path.GetDirectoryName(fullPath);
+        if (!string.IsNullOrEmpty(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        return fullPath;
+    }
+
+    private static int WriteLine(StreamWriter writer, long number, string phrase)
+    {
+        Span<char> numberBuffer = stackalloc char[20];
+        number.TryFormat(numberBuffer, out var numberDigits, provider: CultureInfo.InvariantCulture);
+
+        writer.Write(numberBuffer[..numberDigits]);
+        writer.Write(". ");
+        writer.Write(phrase);
+        writer.Write('\n');
+
+        return numberDigits + 2 + phrase.Length + 1;
     }
 }
