@@ -26,7 +26,7 @@ internal static class FileSizeParser
             upperInput = upperInput[..^2];
         }
 
-        if (long.TryParse(upperInput, out var value) && value > 0)
+        if (long.TryParse(upperInput, out var value) && value > 0 && value <= long.MaxValue / multiplier)
         {
             fileSize = value * multiplier;
 

@@ -13,7 +13,8 @@ internal static class Program
 
         var options = OptionsManager.Get<GeneratorAppOptions>(GeneratorAppOptions.SectionName);
 
-        var seedPhrases = File.ReadAllLines(options.SeedPhraseFilePath);
+        var seedPhraseFilePath = Path.Combine(AppContext.BaseDirectory, options.SeedPhraseFilePath);
+        var seedPhrases = File.ReadAllLines(seedPhraseFilePath);
         Console.WriteLine($"Loaded {seedPhrases.Length} seed phrases from {options.SeedPhraseFilePath}.");
 
         var writtenCharacters = WriteFile(fileSize, seedPhrases, options);
@@ -38,9 +39,9 @@ internal static class Program
         {
             Console.Write("Enter file size (100, 100KB, 100MB, 100GB): ");
             var input = Console.ReadLine();
-            if (string.IsNullOrEmpty(input))
+            if (input is null)
             {
-                continue;
+                throw new InvalidOperationException("File size was not provided: input stream is closed.");
             }
 
             if (FileSizeParser.TryParseFileSize(input, out var fileSize))
@@ -60,12 +61,12 @@ internal static class Program
         var phrase = seedPhrases[random.Next(seedPhrases.Length)];
 
         long writtenCharacters = 0;
-        while (writtenCharacters <= fileSize)
+        while (writtenCharacters < fileSize)
         {
-            var number = random.NextInt64(1, options.MaxNumber);
+            var number = random.NextInt64(1, options.MaxNumber + 1L);
             writtenCharacters += WriteLine(writer, number, phrase);
 
-            if (random.Next() % 100 > options.DuplicateRate)
+            if (random.Next(100) >= options.DuplicateRate)
             {
                 phrase = seedPhrases[random.Next(seedPhrases.Length)];
             }
