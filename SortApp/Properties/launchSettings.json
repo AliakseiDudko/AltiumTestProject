@@ -1,5 +1,9 @@
 {
   "profiles": {
+    "Sort10KB": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines10KB.txt"
+    },
     "Sort100MB": {
       "commandName": "Project",
       "commandLineArgs": "/Users/aliaksei/Downloads/LargeFiles/Lines100MB.txt"
