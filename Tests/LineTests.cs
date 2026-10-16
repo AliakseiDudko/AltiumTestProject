@@ -31,6 +31,14 @@ public class LineTests
     }
 
     [Fact]
+    public void Parse_EmptyNumber_ReportsInvalidNumber()
+    {
+        var exception = Assert.Throws<FormatException>(() => Line.Parse(". Apple"));
+
+        Assert.Contains("valid Number", exception.Message);
+    }
+
+    [Fact]
     public void ToString_ReturnsNumberSeparatorText()
     {
         var line = new Line(415, "Apple is red");

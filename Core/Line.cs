@@ -9,7 +9,7 @@ public readonly record struct Line(long Number, string Text)
     public static Line Parse(string s)
     {
         var dotSeparatorIndex = s.IndexOf(Separator, StringComparison.Ordinal);
-        if (dotSeparatorIndex <= 0)
+        if (dotSeparatorIndex < 0)
         {
             throw new FormatException($"String '{s}' does not contain a dot-separator character.");
         }
