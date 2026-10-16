@@ -9,14 +9,18 @@ internal static class Program
     private static int Main(string[] args)
     {
         SortAppOptions? options = null;
+        var tempDirCreated = false;
 
         try
         {
             options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
 
-            DirectoryManager.Create(options.TempDirOutputPath);
-
             var filePath = GetInputFilePath(args);
+            PathGuard.Validate(filePath, options.OutputFilePath, options.TempDirOutputPath);
+
+            DirectoryManager.Create(options.TempDirOutputPath);
+            tempDirCreated = true;
+
             var fileSize = new FileInfo(filePath).Length;
             Console.WriteLine($"File size: {fileSize} bytes.");
 
@@ -44,7 +48,7 @@ internal static class Program
         }
         finally
         {
-            if (options != null)
+            if (options != null && tempDirCreated)
             {
                 DirectoryManager.Clear(options.TempDirOutputPath);
             }
