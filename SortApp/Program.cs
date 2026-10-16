@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using Altium.Dudko.Core;
 
@@ -17,7 +18,12 @@ internal static class Program
             CreateTempDirectory(options.TempDirOutputPath);
 
             var filePath = GetInputFilePath(args);
+            var fileSize = new FileInfo(filePath).Length;
+            Console.WriteLine($"File size: {fileSize} bytes.");
+
+            var processTime = Stopwatch.StartNew();
             SortFile(filePath, options);
+            Console.WriteLine($@"Total sort time: {processTime.Elapsed:hh\:mm\:ss\.fff}.");
 
             return 0;
         }
