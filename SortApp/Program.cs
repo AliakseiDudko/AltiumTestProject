@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Globalization;
 using System.Text;
 using Altium.Dudko.Core;
 
@@ -83,7 +82,7 @@ internal static class Program
                 break;
             }
 
-            var newLine = ParseLine(line);
+            var newLine = Line.Parse(line);
             currentLines.Add(newLine);
             currentFileSize += line.Length + 1;
 
@@ -94,24 +93,6 @@ internal static class Program
                 currentFileSize = 0;
             }
         }
-    }
-
-    private static Line ParseLine(string line)
-    {
-        var dotSeparatorIndex = line.IndexOf(". ", StringComparison.Ordinal);
-        if (dotSeparatorIndex <= 0)
-        {
-            throw new FormatException($"Line '{line}' does not contain a dot-separator character.");
-        }
-
-        if (!long.TryParse(line.AsSpan(0, dotSeparatorIndex), NumberStyles.None, CultureInfo.InvariantCulture, out var number))
-        {
-            throw new FormatException($"Line '{line}' does not contain a valid Number.");
-        }
-
-        var text = line[(dotSeparatorIndex + 2)..];
-
-        return new Line(number, text);
     }
 
     private static void SortAndWriteChunkFile(List<Line> lines, int fileIndex, SortAppOptions options)
@@ -186,7 +167,7 @@ internal static class Program
             return false;
         }
 
-        newLine = ParseLine(line);
+        newLine = Line.Parse(line);
 
         return true;
     }
