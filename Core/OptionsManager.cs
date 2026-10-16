@@ -7,9 +7,14 @@ public static class OptionsManager
 {
     public static T Get<T>(string sectionName)
     {
+        var settingsFilePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+        if (!File.Exists(settingsFilePath))
+        {
+            throw new InvalidOperationException($"Configuration file '{settingsFilePath}' not found.");
+        }
+
         var configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: false)
+            .AddJsonFile(settingsFilePath, optional: false)
             .Build();
 
         var options = configuration
