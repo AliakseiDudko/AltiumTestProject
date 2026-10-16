@@ -76,7 +76,7 @@ internal static class Program
 
     private static long WriteFile(long fileSize, string[] seedPhrases, GeneratorAppOptions options)
     {
-        var fullPath = CreateAndGetFullPath(options);
+        var fullPath = FilePathManager.Prepare(options.OutputFilePath);
         using var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
         using var writer = new StreamWriter(stream, new UTF8Encoding(false), options.OutputFileBufferSize);
 
@@ -96,18 +96,6 @@ internal static class Program
         }
 
         return writtenCharacters;
-    }
-
-    private static string CreateAndGetFullPath(GeneratorAppOptions options)
-    {
-        var fullPath = Path.GetFullPath(options.OutputFilePath);
-        var directory = Path.GetDirectoryName(fullPath);
-        if (!string.IsNullOrEmpty(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
-
-        return fullPath;
     }
 
     private static int WriteLine(StreamWriter writer, long number, string phrase)

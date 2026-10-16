@@ -15,7 +15,7 @@ internal static class Program
         {
             options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
 
-            CreateTempDirectory(options.TempDirOutputPath);
+            DirectoryManager.Create(options.TempDirOutputPath);
 
             var filePath = GetInputFilePath(args);
             var fileSize = new FileInfo(filePath).Length;
@@ -37,7 +37,7 @@ internal static class Program
         {
             if (options != null)
             {
-                ClearTempDirectory(options.TempDirOutputPath);
+                DirectoryManager.Clear(options.TempDirOutputPath);
             }
         }
     }
@@ -154,7 +154,7 @@ internal static class Program
                 }
             }
 
-            var fullPath = CreateAndGetFullPath(options);
+            var fullPath = FilePathManager.Prepare(options.OutputFilePath);
             using var writeStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
             using var writer = new StreamWriter(writeStream, new UTF8Encoding(false), options.OutputFileBufferSize);
             while (queue.TryDequeue(out var runIndex, out var line))
@@ -176,18 +176,6 @@ internal static class Program
         }
     }
 
-    private static string CreateAndGetFullPath(SortAppOptions options)
-    {
-        var fullPath = Path.GetFullPath(options.OutputFilePath);
-        var directory = Path.GetDirectoryName(fullPath);
-        if (!string.IsNullOrEmpty(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
-
-        return fullPath;
-    }
-
     private static bool TryReadNextLine(StreamReader reader, out Line newLine)
     {
         var line = reader.ReadLine();
@@ -201,32 +189,5 @@ internal static class Program
         newLine = ParseLine(line);
 
         return true;
-    }
-
-    private static void CreateTempDirectory(string tempDirOutputPath)
-    {
-        var fullPath = Path.GetFullPath(tempDirOutputPath);
-        if (Directory.Exists(fullPath))
-        {
-            Directory.Delete(fullPath, recursive: true);
-        }
-
-        Directory.CreateDirectory(fullPath);
-    }
-
-    private static void ClearTempDirectory(string tempDirOutputPath)
-    {
-        try
-        {
-            var fullPath = Path.GetFullPath(tempDirOutputPath);
-            if (Directory.Exists(fullPath))
-            {
-                Directory.Delete(fullPath, recursive: true);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine(ex.Message);
-        }
     }
 }
