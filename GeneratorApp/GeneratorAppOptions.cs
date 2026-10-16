@@ -6,8 +6,8 @@ internal sealed class GeneratorAppOptions
 {
     public const string SectionName = "GeneratorApp";
 
-    [Range(1, int.MaxValue)]
-    public int MaxNumber { get; init; }
+    [Range(0, long.MaxValue)]
+    public long MaxNumber { get; init; }
 
     [Required]
     public required string SeedPhraseFilePath { get; init; }

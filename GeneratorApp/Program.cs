@@ -85,7 +85,7 @@ internal static class Program
         long writtenCharacters = 0;
         while (writtenCharacters < fileSize)
         {
-            var number = random.NextInt64(1, options.MaxNumber + 1L);
+            var number = random.NextInt64(0, options.MaxNumber);
             var line = new Line(number, phrase);
             writtenCharacters += LineWriter.Write(writer, line);
 
