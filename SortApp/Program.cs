@@ -21,7 +21,17 @@ internal static class Program
             Console.WriteLine($"File size: {fileSize} bytes.");
 
             var processTime = Stopwatch.StartNew();
-            SortFile(filePath, options);
+
+            Console.WriteLine("Start splitting into sorted chunks...");
+            var phaseTime = Stopwatch.StartNew();
+            DivideIntoFiles(filePath, options);
+            Console.WriteLine($@"Splitting into sorted chunks time: {phaseTime.Elapsed:hh\:mm\:ss\.fff}.");
+
+            Console.WriteLine("Start merging into output file...");
+            phaseTime.Restart();
+            MergeFiles(options);
+            Console.WriteLine($@"Merging into output file time: {phaseTime.Elapsed:hh\:mm\:ss\.fff}.");
+
             Console.WriteLine($@"Total sort time: {processTime.Elapsed:hh\:mm\:ss\.fff}.");
 
             return 0;
@@ -55,12 +65,6 @@ internal static class Program
         }
 
         return inputFilePath;
-    }
-
-    private static void SortFile(string filePath, SortAppOptions options)
-    {
-        DivideIntoFiles(filePath, options);
-        MergeFiles(options);
     }
 
     private static void DivideIntoFiles(string filePath, SortAppOptions options)
