@@ -8,14 +8,13 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        SortAppOptions options = null;
+        SortAppOptions? options = null;
 
         try
         {
             options = OptionsManager.Get<SortAppOptions>(SortAppOptions.SectionName);
 
             CreateTempDirectory(options.TempDirOutputPath);
-            Console.WriteLine($"Temp directory {options.TempDirOutputPath} created.");
 
             var filePath = GetInputFilePath(args);
             SortFile(filePath, options);
@@ -33,7 +32,6 @@ internal static class Program
             if (options != null)
             {
                 ClearTempDirectory(options.TempDirOutputPath);
-                Console.WriteLine($"Temp directory {options.TempDirOutputPath} cleared.");
             }
         }
     }
@@ -64,9 +62,10 @@ internal static class Program
         var currentLines = new List<Line>(options.ChunkListCapacity);
         var currentFileIndex = 0;
         long currentFileSize = 0;
-        long maxChunkChars = options.ChunkSizeMb * 1024 * 1024;
+        long maxChunkChars = options.ChunkSizeMb * 1024L * 1024;
 
-        using var reader = new StreamReader(filePath);
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, options.OutputFileBufferSize, FileOptions.SequentialScan);
+        using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, options.OutputFileBufferSize);
         while (true)
         {
             var line = reader.ReadLine();
@@ -93,7 +92,16 @@ internal static class Program
     private static Line ParseLine(string line)
     {
         var dotSeparatorIndex = line.IndexOf(". ", StringComparison.Ordinal);
-        var number = long.Parse(line.AsSpan(0, dotSeparatorIndex), NumberStyles.None, CultureInfo.InvariantCulture);
+        if (dotSeparatorIndex <= 0)
+        {
+            throw new FormatException($"Line '{line}' does not contain a dot-separator character.");
+        }
+
+        if (!long.TryParse(line.AsSpan(0, dotSeparatorIndex), NumberStyles.None, CultureInfo.InvariantCulture, out var number))
+        {
+            throw new FormatException($"Line '{line}' does not contain a valid Number.");
+        }
+
         var text = line[(dotSeparatorIndex + 2)..];
 
         return new Line(number, text);
@@ -101,9 +109,14 @@ internal static class Program
 
     private static void SortAndWriteChunkFile(List<Line> lines, int fileIndex, SortAppOptions options)
     {
+        if (lines.Count == 0)
+        {
+            return;
+        }
+
         lines.Sort(LineComparer.Instance);
 
-        var filePath = Path.Combine(options.TempDirOutputPath, $"chuck-{fileIndex:D5}.txt");
+        var filePath = Path.Combine(options.TempDirOutputPath, $"chunk-{fileIndex:D5}.txt");
         using var stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, options.OutputFileBufferSize);
         using var writer = new StreamWriter(stream, new UTF8Encoding(false), options.OutputFileBufferSize);
 
@@ -126,10 +139,17 @@ internal static class Program
 
     private static void ClearTempDirectory(string tempDirOutputPath)
     {
-        var fullPath = Path.GetFullPath(tempDirOutputPath);
-        if (Directory.Exists(fullPath))
+        try
         {
-            Directory.Delete(fullPath, recursive: true);
+            var fullPath = Path.GetFullPath(tempDirOutputPath);
+            if (Directory.Exists(fullPath))
+            {
+                Directory.Delete(fullPath, recursive: true);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message);
         }
     }
 }

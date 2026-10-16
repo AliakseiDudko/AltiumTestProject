@@ -15,7 +15,7 @@ internal sealed class GeneratorAppOptions
     [Range(0, 100)]
     public int DuplicateRate { get; init; }
 
-    [Range(1, int.MaxValue)]
+    [Range(4096, int.MaxValue)]
     public int OutputFileBufferSize { get; init; }
 
     [Required]
