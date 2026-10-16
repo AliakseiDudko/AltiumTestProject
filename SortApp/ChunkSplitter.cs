@@ -5,12 +5,13 @@ namespace Altium.Dudko.SortApp;
 
 internal static class ChunkSplitter
 {
-    public static void Split(string filePath, SortAppOptions options)
+    public static IReadOnlyList<string> Split(string filePath, SortAppOptions options)
     {
+        var chunkFilePaths = new List<string>();
+
         var currentLines = new List<Line>(options.ChunkListCapacity);
-        var currentFileIndex = 0;
-        long currentFileSize = 0;
-        long maxChunkChars = options.ChunkSizeMb * 1024L * 1024;
+        var currentFileSize = 0L;
+        var maxChunkChars = options.ChunkSizeMb * 1024L * 1024;
 
         using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, options.OutputFileBufferSize, FileOptions.SequentialScan);
         using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, options.OutputFileBufferSize);
@@ -19,7 +20,11 @@ internal static class ChunkSplitter
             var line = reader.ReadLine();
             if (line == null)
             {
-                SortAndWriteChunkFile(currentLines, currentFileIndex, options);
+                if (currentLines.Count > 0)
+                {
+                    var chunkFilePath = SortAndWriteChunkFile(currentLines, chunkFilePaths.Count, options);
+                    chunkFilePaths.Add(chunkFilePath);
+                }
 
                 break;
             }
@@ -30,20 +35,19 @@ internal static class ChunkSplitter
 
             if (currentFileSize >= maxChunkChars)
             {
-                SortAndWriteChunkFile(currentLines, currentFileIndex++, options);
+                var chunkFilePath = SortAndWriteChunkFile(currentLines, chunkFilePaths.Count, options);
+                chunkFilePaths.Add(chunkFilePath);
+
                 currentLines.Clear();
                 currentFileSize = 0;
             }
         }
+
+        return chunkFilePaths;
     }
 
-    private static void SortAndWriteChunkFile(List<Line> lines, int fileIndex, SortAppOptions options)
+    private static string SortAndWriteChunkFile(List<Line> lines, int fileIndex, SortAppOptions options)
     {
-        if (lines.Count == 0)
-        {
-            return;
-        }
-
         lines.Sort(LineComparer.Instance);
 
         var filePath = Path.Combine(options.TempDirOutputPath, $"chunk-{fileIndex:D5}.txt");
@@ -54,5 +58,7 @@ internal static class ChunkSplitter
         {
             LineWriter.Write(writer, line);
         }
+
+        return filePath;
     }
 }

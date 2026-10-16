@@ -5,19 +5,16 @@ namespace Altium.Dudko.SortApp;
 
 internal static class FileMerger
 {
-    public static void Merge(SortAppOptions options)
+    public static void Merge(IReadOnlyList<string> chunkFilePaths, SortAppOptions options)
     {
-        var tempDirFullPath = Path.GetFullPath(options.TempDirOutputPath);
-        var chunkFiles = Directory.GetFiles(tempDirFullPath, "chunk-*.txt");
-
-        var readers = new StreamReader[chunkFiles.Length];
+        var readers = new StreamReader[chunkFilePaths.Count];
         try
         {
             var queue = new PriorityQueue<int, Line>(LineComparer.Instance);
 
-            for (var i = 0; i < chunkFiles.Length; i++)
+            for (var i = 0; i < chunkFilePaths.Count; i++)
             {
-                var readStream = new FileStream(chunkFiles[i], FileMode.Open, FileAccess.Read, FileShare.Read, options.OutputFileBufferSize, FileOptions.SequentialScan);
+                var readStream = new FileStream(chunkFilePaths[i], FileMode.Open, FileAccess.Read, FileShare.Read, options.OutputFileBufferSize, FileOptions.SequentialScan);
                 readers[i] = new StreamReader(readStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, options.OutputFileBufferSize);
 
                 if (TryReadNextLine(readers[i], out var newLine))

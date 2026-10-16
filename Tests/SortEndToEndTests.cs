@@ -71,13 +71,12 @@ public sealed class SortEndToEndTests : IDisposable
         var inputLines = GenerateLines(10 * 1024 * 1024);
         var inputFilePath = WriteInput(string.Concat(inputLines.Select(x => x + "\n")));
 
-        ChunkSplitter.Split(inputFilePath, _options);
-        var chunkCount = Directory.GetFiles(_options.TempDirOutputPath, "chunk-*.txt").Length;
-        FileMerger.Merge(_options);
+        var chunkFilePaths = ChunkSplitter.Split(inputFilePath, _options);
+        FileMerger.Merge(chunkFilePaths, _options);
 
         var expected = inputLines.Select(Line.Parse).Order(LineComparer.Instance).Select(x => x.ToString());
         var actual = File.ReadAllLines(_options.OutputFilePath);
-        Assert.True(chunkCount > 1, $"Expected several chunks, got {chunkCount}.");
+        Assert.True(chunkFilePaths.Count > 1, $"Expected several chunks, got {chunkFilePaths.Count}.");
         Assert.Equal(expected, actual);
     }
 
@@ -85,8 +84,8 @@ public sealed class SortEndToEndTests : IDisposable
     {
         var inputFilePath = WriteInput(input);
 
-        ChunkSplitter.Split(inputFilePath, _options);
-        FileMerger.Merge(_options);
+        var chunkFilePaths = ChunkSplitter.Split(inputFilePath, _options);
+        FileMerger.Merge(chunkFilePaths, _options);
 
         return File.ReadAllText(_options.OutputFilePath);
     }

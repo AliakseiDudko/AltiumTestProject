@@ -27,12 +27,12 @@ internal static class Program
 
             Console.WriteLine("Start splitting into sorted chunks...");
             var phaseTime = Stopwatch.StartNew();
-            ChunkSplitter.Split(filePath, options);
+            var chunkFilePaths = ChunkSplitter.Split(filePath, options);
             Console.WriteLine($@"Splitting into sorted chunks time: {phaseTime.Elapsed:hh\:mm\:ss\.fff}.");
 
             Console.WriteLine("Start merging into output file...");
             phaseTime.Restart();
-            FileMerger.Merge(options);
+            FileMerger.Merge(chunkFilePaths, options);
             Console.WriteLine($@"Merging into output file time: {phaseTime.Elapsed:hh\:mm\:ss\.fff}.");
 
             Console.WriteLine($@"Total sort time: {processTime.Elapsed:hh\:mm\:ss\.fff}.");
