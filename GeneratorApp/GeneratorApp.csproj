@@ -18,4 +18,8 @@
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Altium.Dudko.Tests"/>
+    </ItemGroup>
+
 </Project>
