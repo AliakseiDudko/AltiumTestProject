@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 
-namespace Altium.Dudko.SortApp;
+namespace Altium.Dudko.Core;
 
-internal readonly record struct Line(long Number, string Text)
+public readonly record struct Line(long Number, string Text)
 {
-    private const string Separator = ". ";
+    public const string Separator = ". ";
 
     public static Line Parse(string s)
     {

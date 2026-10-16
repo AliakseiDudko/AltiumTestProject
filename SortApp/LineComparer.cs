@@ -1,3 +1,5 @@
+using Altium.Dudko.Core;
+
 namespace Altium.Dudko.SortApp;
 
 internal sealed class LineComparer : IComparer<Line>

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Altium.Dudko.Core;
 
 namespace Altium.Dudko.GeneratorApp;
@@ -87,7 +86,8 @@ internal static class Program
         while (writtenCharacters < fileSize)
         {
             var number = random.NextInt64(1, options.MaxNumber + 1L);
-            writtenCharacters += WriteLine(writer, number, phrase);
+            var line = new Line(number, phrase);
+            writtenCharacters += LineWriter.Write(writer, line);
 
             if (random.Next(100) >= options.DuplicateRate)
             {
@@ -96,18 +96,5 @@ internal static class Program
         }
 
         return writtenCharacters;
-    }
-
-    private static int WriteLine(StreamWriter writer, long number, string phrase)
-    {
-        Span<char> numberBuffer = stackalloc char[20];
-        number.TryFormat(numberBuffer, out var numberDigits, provider: CultureInfo.InvariantCulture);
-
-        writer.Write(numberBuffer[..numberDigits]);
-        writer.Write(". ");
-        writer.Write(phrase);
-        writer.Write('\n');
-
-        return numberDigits + 2 + phrase.Length + 1;
     }
 }
